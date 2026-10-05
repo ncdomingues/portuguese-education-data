@@ -1,0 +1,10 @@
+# Data is downloaded by each project's src/download_data.py
+**/data/raw/
+**/data/processed/
+
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.claude/
+.DS_Store
+Thumbs.db

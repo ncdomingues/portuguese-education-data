@@ -1,0 +1,460 @@
+<meta charset="utf-8">
+<title>Portuguese School Grades, Then and Now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a school "pauta" (grade sheet) — summary strip, then two eras side by side, every grade on the 0–20 scale with the pass mark at 10. */
+:root {
+  --bg: #f5f6f8;
+  --panel: #ffffff;
+  --ink: #15203a;
+  --ink-2: #4f5668;
+  --ink-3: #7a8091;
+  --line: #e1e4ea;
+  --track: #eceef2;
+  --blue: #2a78d6;
+  --orange: #eb6834;
+  --grey: #b9bcc6;
+  --good: #0f8a4f;
+  --good-bg: #e3f4ea;
+  --warn: #9a6400;
+  --warn-bg: #fbf0d6;
+  --info: #5a4bb3;
+  --info-bg: #ecebfa;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151c; --panel: #1b1f29; --ink: #eef0f5; --ink-2: #b9bdc9; --ink-3: #8b90a0;
+    --line: #2c3240; --track: #262b37; --blue: #3987e5; --orange: #d95926; --grey: #5c6170;
+    --good: #4cc98a; --good-bg: #173326; --warn: #e8b44a; --warn-bg: #3a2f14; --info: #a99ff0; --info-bg: #26233f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151c; --panel: #1b1f29; --ink: #eef0f5; --ink-2: #b9bdc9; --ink-3: #8b90a0;
+  --line: #2c3240; --track: #262b37; --blue: #3987e5; --orange: #d95926; --grey: #5c6170;
+  --good: #4cc98a; --good-bg: #173326; --warn: #e8b44a; --warn-bg: #3a2f14; --info: #a99ff0; --info-bg: #26233f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; display: grid; gap: 28px; }
+
+/* language switch: Portuguese hidden unless selected */
+[data-l="pt"] { display: none; }
+:root[data-lang="pt"] [data-l="pt"] { display: revert; }
+:root[data-lang="pt"] [data-l="en"] { display: none; }
+
+h1, h2, h3 { font-family: var(--display); font-stretch: 85%; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 800; line-height: 1.05; }
+h2 { font-size: clamp(22px, 3vw, 28px); font-weight: 750; }
+h3 { font-size: 19px; font-weight: 700; line-height: 1.2; }
+p { margin: 0; max-width: 65ch; }
+.eyebrow { font-family: var(--display); font-stretch: 85%; font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.muted { color: var(--ink-2); }
+.small { font-size: 14px; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* header */
+header { display: grid; gap: 14px; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.lede { font-size: 18px; color: var(--ink-2); }
+.switch { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--panel); }
+.switch button { font: 600 13px var(--body); border: 0; background: transparent; color: var(--ink-2); padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.switch button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.switch button:focus-visible, .tab:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* summary strip */
+.summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.summary > div { background: var(--panel); padding: 18px; display: grid; gap: 6px; align-content: start; }
+.big { font-family: var(--display); font-stretch: 80%; font-weight: 800; font-size: 40px; line-height: 1; }
+.big small { font-size: 18px; font-weight: 600; color: var(--ink-2); }
+
+/* era sections */
+.era { display: grid; gap: 16px; }
+.era-head { display: flex; gap: 12px 20px; align-items: baseline; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
+.era-head .meta { color: var(--ink-2); font-size: 15px; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.card.wide { grid-column: 1 / -1; }
+.takeaway { font-size: 15.5px; color: var(--ink-2); }
+
+/* grade bars on the 0–20 scale */
+.bars { display: grid; gap: 10px; }
+.bar-group { display: grid; gap: 6px; }
+.bar-group + .bar-group { margin-top: 6px; }
+.group-label { font-weight: 600; font-size: 14px; }
+.bar { display: grid; grid-template-columns: minmax(0, 9.5em) minmax(0, 1fr) 3.2em; align-items: center; gap: 10px; font-size: 14px; }
+.bar .lab { color: var(--ink-2); overflow-wrap: anywhere; }
+.track { position: relative; height: 18px; background: var(--track); border-radius: 0 4px 4px 0; }
+.fill { position: absolute; inset: 0 auto 0 0; border-radius: 0 4px 4px 0; }
+.pass { position: absolute; top: -4px; bottom: -4px; left: 50%; width: 0; border-left: 1.5px dashed var(--ink-3); }
+.val { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 14px; text-align: right; }
+.scale { display: grid; grid-template-columns: minmax(0, 9.5em) minmax(0, 1fr) 3.2em; gap: 10px; font-size: 12px; color: var(--ink-3); }
+.scale .ticks { display: flex; justify-content: space-between; position: relative; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+/* dot grid (100 students) */
+.dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; max-width: 420px; }
+.dot { aspect-ratio: 1; border-radius: 50%; background: var(--grey); }
+.dot.fail { background: var(--orange); }
+.dot.flag { box-shadow: 0 0 0 2px var(--panel), 0 0 0 3.5px var(--ink); }
+.dot-legend { display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.dot-legend .dot { width: 13px; display: inline-block; vertical-align: -2px; margin-right: 8px; }
+
+/* comparison meters (percentile among schools) */
+.meter-row { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr); gap: 10px 14px; align-items: center; font-size: 14px; }
+.meter { position: relative; height: 26px; border-top: 1px solid var(--line); }
+.meter::before { content: ""; position: absolute; left: 0; right: 0; top: 12px; border-top: 2px solid var(--track); }
+.pin { position: absolute; top: 4px; width: 18px; height: 18px; border-radius: 50%; transform: translateX(-50%); border: 2px solid var(--panel); }
+.pin span { position: absolute; top: -2px; left: 22px; font-family: var(--mono); font-size: 12px; white-space: nowrap; color: var(--ink-2); }
+.pin.gp { background: var(--blue); }
+.pin.ms { background: var(--orange); }
+.pin.ms span { top: auto; bottom: -18px; }
+.meter-axis { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-3); }
+
+/* then & now verdicts */
+.verdicts { display: grid; gap: 0; }
+.verdict { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) auto; gap: 12px 18px; padding-block: 14px; border-top: 1px solid var(--line); align-items: start; font-size: 15px; }
+.verdict.head { border-top: 0; padding-block: 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); font-family: var(--display); font-stretch: 85%; font-weight: 700; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.chip::before { font-size: 12px; }
+.chip.same { color: var(--good); background: var(--good-bg); }
+.chip.same::before { content: "✓"; }
+.chip.changed { color: var(--warn); background: var(--warn-bg); }
+.chip.changed::before { content: "↺"; }
+.chip.mixed { color: var(--info); background: var(--info-bg); }
+.chip.mixed::before { content: "≈"; }
+
+.caution { border-left: 4px solid var(--warn); background: var(--warn-bg); border-radius: 0 10px 10px 0; padding: 16px 20px; display: grid; gap: 8px; }
+.caution h3 { color: var(--ink); }
+.caution ul, .card ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; max-width: 70ch; }
+footer { font-size: 13px; color: var(--ink-3); display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 16px; }
+footer a { color: var(--ink-2); }
+
+@media (max-width: 860px) {
+  .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .verdict { grid-template-columns: minmax(0, 1fr) auto; }
+  .verdict > .then, .verdict > .now { grid-column: 1 / -1; }
+  .verdict.head { display: none; }
+}
+@media (max-width: 480px) {
+  .summary { grid-template-columns: minmax(0, 1fr); }
+  .bar, .scale { grid-template-columns: minmax(0, 6.5em) minmax(0, 1fr) 3em; }
+  .meter-row { grid-template-columns: minmax(0, 1fr); }
+  .big { font-size: 34px; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="top">
+      <span class="eyebrow"><span data-l="en">Two data projects · plain-language summary</span><span data-l="pt">Dois projetos de dados · resumo em linguagem simples</span></span>
+      <div class="switch" role="group" aria-label="Language">
+        <button type="button" id="btn-en" aria-pressed="true" data-set="en">English</button>
+        <button type="button" id="btn-pt" aria-pressed="false" data-set="pt">Português</button>
+      </div>
+    </div>
+    <h1><span data-l="en">What explains students' grades in Portuguese schools?</span><span data-l="pt">O que explica as notas dos alunos nas escolas portuguesas?</span></h1>
+    <p class="lede"><span data-l="en">We looked at 649 students in two secondary schools in 2005/06, then checked the same questions against every national exam taken in 2024. Grades are on the usual 0–20 scale, where 10 is a pass.</span><span data-l="pt">Analisámos 649 alunos de duas escolas secundárias em 2005/06 e depois testámos as mesmas perguntas com todos os exames nacionais de 2024. As notas estão na escala habitual de 0 a 20, em que 10 é positiva.</span></p>
+  </header>
+
+  <!-- Summary -->
+  <section class="summary" aria-label="Key findings">
+    <div>
+      <span class="eyebrow"><span data-l="en">Biggest warning sign</span><span data-l="pt">Maior sinal de alerta</span></span>
+      <span class="big num">−4<small>&nbsp;<span data-l="en">points</span><span data-l="pt">valores</span></small></span>
+      <p class="small muted"><span data-l="en">Students who had already repeated a year scored about 4 points lower. Still true in 2024.</span><span data-l="pt">Alunos que já tinham reprovado tiveram cerca de 4 valores a menos. Continua a ser verdade em 2024.</span></p>
+    </div>
+    <div>
+      <span class="eyebrow"><span data-l="en">Explained by background</span><span data-l="pt">Explicado pelo contexto</span></span>
+      <span class="big num">6<small>&nbsp;<span data-l="en">in 10</span><span data-l="pt">em 10</span></small></span>
+      <p class="small muted"><span data-l="en">Most of the difference between schools' exam results comes from who their students are.</span><span data-l="pt">A maior parte da diferença entre escolas nos exames vem de quem são os seus alunos.</span></p>
+    </div>
+    <div>
+      <span class="eyebrow"><span data-l="en">Early warning works</span><span data-l="pt">O alerta precoce funciona</span></span>
+      <span class="big num">8<small>&nbsp;<span data-l="en">in 10</span><span data-l="pt">em 10</span></small></span>
+      <p class="small muted"><span data-l="en">Students who went on to fail could be spotted at the start of the year.</span><span data-l="pt">Alunos que viriam a reprovar podiam ser identificados no início do ano.</span></p>
+    </div>
+    <div>
+      <span class="eyebrow"><span data-l="en">"Best school" depends</span><span data-l="pt">A "melhor escola" depende</span></span>
+      <span class="big num">≈0</span>
+      <p class="small muted"><span data-l="en">No link between doing well in exams and getting students to finish on time.</span><span data-l="pt">Não há ligação entre ter bons exames e levar os alunos a terminar no tempo certo.</span></p>
+    </div>
+  </section>
+
+  <!-- 2005/06 -->
+  <section class="era">
+    <div class="era-head">
+      <h2>2005/06</h2>
+      <span class="meta"><span data-l="en">649 students · Gabriel Pereira (Évora) and Mouzinho da Silveira (Portalegre) · final grade in Portuguese</span><span data-l="pt">649 alunos · Gabriel Pereira (Évora) e Mouzinho da Silveira (Portalegre) · nota final a Português</span></span>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <h3><span data-l="en">Repeating a year is the clearest warning sign</span><span data-l="pt">Ter reprovado é o sinal de alerta mais claro</span></h3>
+        <div class="bars" id="c-failures"></div>
+        <p class="takeaway"><span data-l="en">Wanting to go to university mattered almost as much. Those who did averaged 12.3, those who didn't 8.8.</span><span data-l="pt">Querer ir para a universidade pesou quase tanto. Quem queria teve 12,3 de média, quem não queria teve 8,8.</span></p>
+      </article>
+
+      <article class="card">
+        <h3><span data-l="en">An early-warning list catches most students at risk</span><span data-l="pt">Uma lista de alerta precoce apanha a maioria dos alunos em risco</span></h3>
+        <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:center;">
+          <div class="dots" id="c-dots" role="img" aria-label="100 students: 15 will fail; 34 are flagged, 12 of whom fail; 3 who fail are missed."></div>
+          <div class="dot-legend">
+            <span><i class="dot fail flag"></i><span data-l="en"><b class="num">12</b> flagged, and fail</span><span data-l="pt"><b class="num">12</b> sinalizados, e reprovam</span></span>
+            <span><i class="dot flag"></i><span data-l="en"><b class="num">22</b> flagged, but pass</span><span data-l="pt"><b class="num">22</b> sinalizados, mas passam</span></span>
+            <span><i class="dot fail"></i><span data-l="en"><b class="num">3</b> missed</span><span data-l="pt"><b class="num">3</b> não detetados</span></span>
+            <span><i class="dot"></i><span data-l="en"><b class="num">63</b> not flagged, and pass</span><span data-l="pt"><b class="num">63</b> não sinalizados, e passam</span></span>
+          </div>
+        </div>
+        <p class="takeaway"><span data-l="en">For every 100 students, using only what the school knows in September. About 1 in 3 flagged students actually fails, and many of the others are borderline cases who also benefit from support.</span><span data-l="pt">Por cada 100 alunos, usando só o que a escola sabe em setembro. Cerca de 1 em cada 3 alunos sinalizados reprova de facto, e muitos dos outros são casos-limite que também beneficiam de apoio.</span></p>
+      </article>
+
+      <article class="card">
+        <h3><span data-l="en">The same students: girls ahead in Portuguese, boys in Maths</span><span data-l="pt">Os mesmos alunos: raparigas à frente a Português, rapazes a Matemática</span></h3>
+        <div class="legend" id="lg-sex"></div>
+        <div class="bars" id="c-sex-0506"></div>
+        <p class="takeaway"><span data-l="en">382 students appear in both subjects. Being good at one subject doesn't guarantee being good at the other.</span><span data-l="pt">Há 382 alunos nas duas disciplinas. Ser bom numa disciplina não garante ser bom na outra.</span></p>
+      </article>
+
+      <article class="card">
+        <h3><span data-l="en">A grade of 0 usually meant the student had left</span><span data-l="pt">Uma nota 0 significava, em geral, que o aluno tinha saído</span></h3>
+        <div style="display:flex; gap:28px; flex-wrap:wrap;">
+          <div><span class="big num">15</span><p class="small muted"><span data-l="en">students in Portuguese (2%)</span><span data-l="pt">alunos a Português (2%)</span></p></div>
+          <div><span class="big num">38</span><p class="small muted"><span data-l="en">students in Maths (10%)</span><span data-l="pt">alunos a Matemática (10%)</span></p></div>
+        </div>
+        <p class="takeaway"><span data-l="en">Every one of them had zero recorded absences, which is what happens when a student stops attending altogether. Dropping out is a different problem from low grades, and needs its own response.</span><span data-l="pt">Todos tinham zero faltas registadas, o que acontece quando um aluno deixa de vir de todo. O abandono é um problema diferente das notas baixas e precisa de resposta própria.</span></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 2024 -->
+  <section class="era">
+    <div class="era-head">
+      <h2>2024</h2>
+      <span class="meta"><span data-l="en">311,909 national exams · every secondary school in Portugal · exam scores converted to 0–20</span><span data-l="pt">311 909 exames nacionais · todas as escolas secundárias do país · notas de exame convertidas para 0–20</span></span>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <h3><span data-l="en">Falling behind still costs the most</span><span data-l="pt">Ficar para trás continua a ser o que mais pesa</span></h3>
+        <div class="legend" id="lg-subj"></div>
+        <div class="bars" id="c-age"></div>
+        <p class="takeaway"><span data-l="en">Most students finish at 17. Those sitting the exam at 18 or 19 have usually repeated a year, and they score much lower.</span><span data-l="pt">A maioria termina aos 17 anos. Quem faz o exame aos 18 ou 19 anos normalmente já reprovou, e tem notas bem mais baixas.</span></p>
+      </article>
+
+      <article class="card">
+        <h3><span data-l="en">Private schools' lead is mostly about who they enrol</span><span data-l="pt">A vantagem dos colégios deve-se sobretudo a quem os frequenta</span></h3>
+        <div class="bars" id="c-private"></div>
+        <p class="takeaway"><span data-l="en">Private schools score well above public ones. When we compare schools whose students have similar backgrounds, about 90% of that lead disappears.</span><span data-l="pt">Os colégios têm resultados muito acima das escolas públicas. Quando comparamos escolas com alunos de contexto semelhante, cerca de 90% dessa vantagem desaparece.</span></p>
+      </article>
+
+      <article class="card">
+        <h3><span data-l="en">Girls now lead in both Portuguese and Maths</span><span data-l="pt">Agora as raparigas estão à frente a Português e a Matemática</span></h3>
+        <div class="legend" id="lg-sex2"></div>
+        <div class="bars" id="c-sex-2024"></div>
+        <p class="takeaway"><span data-l="en">Careful: only students applying to university sit these exams, and more boys than girls take Maths A. Part of the change may be about who sits the exam.</span><span data-l="pt">Atenção: só os candidatos ao superior fazem estes exames, e há mais rapazes do que raparigas em Matemática A. Parte da mudança pode dever-se a quem faz o exame.</span></p>
+      </article>
+
+      <article class="card">
+        <h3><span data-l="en">School grades are about 3 points higher than exam scores</span><span data-l="pt">As notas da escola são cerca de 3 valores mais altas do que as dos exames</span></h3>
+        <div class="legend" id="lg-int"></div>
+        <div class="bars" id="c-internal"></div>
+        <p class="takeaway"><span data-l="en">Expected to some degree, since school grades also reward a whole year of work. In Maths A the gap is smaller in private schools (0.9 points) than in public ones (2.0).</span><span data-l="pt">Em parte é esperado, porque a nota da escola também reflete um ano inteiro de trabalho. Em Matemática A a diferença é menor nos colégios (0,9 valores) do que nas escolas públicas (2,0).</span></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Same two schools -->
+  <section class="era">
+    <div class="era-head">
+      <h2><span data-l="en">The same two schools, 18 years later</span><span data-l="pt">As mesmas duas escolas, 18 anos depois</span></h2>
+    </div>
+    <article class="card wide">
+      <p class="takeaway"><span data-l="en">In 2005/06 Gabriel Pereira had the better grades (12.6 vs 10.7 in Portuguese). In 2024 both schools take in very similar students, yet each is "better" at something different. Each dot shows where the school ranks among 555 secondary schools.</span><span data-l="pt">Em 2005/06 a Gabriel Pereira tinha melhores notas (12,6 contra 10,7 a Português). Em 2024 as duas escolas recebem alunos muito parecidos, mas cada uma é "melhor" numa coisa diferente. Cada ponto mostra a posição da escola entre 555 escolas secundárias.</span></p>
+      <div class="legend">
+        <span class="key"><i class="sw" style="background:var(--blue)"></i>Gabriel Pereira, Évora</span>
+        <span class="key"><i class="sw" style="background:var(--orange)"></i>Mouzinho da Silveira, Portalegre</span>
+      </div>
+      <div class="meter-row" id="c-meters"></div>
+      <p class="takeaway"><span data-l="en">Gabriel Pereira does better in exams than its intake predicts. Mouzinho da Silveira gets more students to finish secondary school on time than its intake predicts. Which one is "better" depends on what you value.</span><span data-l="pt">A Gabriel Pereira tem melhores exames do que o perfil dos alunos faria prever. A Mouzinho da Silveira leva mais alunos a terminar o secundário a tempo do que o perfil faria prever. Qual é "melhor" depende do que se valoriza.</span></p>
+    </article>
+  </section>
+
+  <!-- Then and now -->
+  <section class="era">
+    <div class="era-head">
+      <h2><span data-l="en">Then and now</span><span data-l="pt">Antes e agora</span></h2>
+    </div>
+    <article class="card wide">
+      <div class="verdicts">
+        <div class="verdict head">
+          <span><span data-l="en">Finding</span><span data-l="pt">Resultado</span></span>
+          <span class="then">2005/06</span>
+          <span class="now">2024</span>
+          <span><span data-l="en">Verdict</span><span data-l="pt">Veredicto</span></span>
+        </div>
+        <div class="verdict">
+          <b><span data-l="en">Students who fell behind do worse</span><span data-l="pt">Quem ficou para trás tem piores notas</span></b>
+          <span class="then muted"><span data-l="en">−2.4 to −4 points after a failed year</span><span data-l="pt">−2,4 a −4 valores após uma reprovação</span></span>
+          <span class="now muted"><span data-l="en">−1.4 to −5 points for older students</span><span data-l="pt">−1,4 a −5 valores para alunos mais velhos</span></span>
+          <span class="chip same"><span data-l="en">Still true</span><span data-l="pt">Mantém-se</span></span>
+        </div>
+        <div class="verdict">
+          <b><span data-l="en">Girls do better in Portuguese</span><span data-l="pt">As raparigas têm melhor nota a Português</span></b>
+          <span class="then muted"><span data-l="en">+0.7 points</span><span data-l="pt">+0,7 valores</span></span>
+          <span class="now muted"><span data-l="en">+0.8 points</span><span data-l="pt">+0,8 valores</span></span>
+          <span class="chip same"><span data-l="en">Still true</span><span data-l="pt">Mantém-se</span></span>
+        </div>
+        <div class="verdict">
+          <b><span data-l="en">Boys do better in Maths</span><span data-l="pt">Os rapazes têm melhor nota a Matemática</span></b>
+          <span class="then muted"><span data-l="en">Boys +0.7 points</span><span data-l="pt">Rapazes +0,7 valores</span></span>
+          <span class="now muted"><span data-l="en">Girls +0.9 points (exam takers only)</span><span data-l="pt">Raparigas +0,9 valores (só quem faz exame)</span></span>
+          <span class="chip changed"><span data-l="en">Changed</span><span data-l="pt">Mudou</span></span>
+        </div>
+        <div class="verdict">
+          <b><span data-l="en">Gabriel Pereira is ahead of Mouzinho da Silveira</span><span data-l="pt">A Gabriel Pereira está à frente da Mouzinho da Silveira</span></b>
+          <span class="then muted"><span data-l="en">Ahead in both subjects</span><span data-l="pt">À frente nas duas disciplinas</span></span>
+          <span class="now muted"><span data-l="en">Ahead in exams, behind in finishing on time</span><span data-l="pt">À frente nos exames, atrás na conclusão a tempo</span></span>
+          <span class="chip mixed"><span data-l="en">It depends</span><span data-l="pt">Depende</span></span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <aside class="caution">
+    <h3><span data-l="en">Before drawing conclusions</span><span data-l="pt">Antes de tirar conclusões</span></h3>
+    <ul>
+      <li><span data-l="en">In 2024, 98% of exams were taken to apply to university. The exam results describe applicants, not every student.</span><span data-l="pt">Em 2024, 98% dos exames foram feitos para acesso ao ensino superior. Os resultados descrevem candidatos, não todos os alunos.</span></li>
+      <li><span data-l="en">These are patterns, not causes. Repeating a year doesn't necessarily lower grades; it reflects difficulties that began earlier.</span><span data-l="pt">São padrões, não causas. Reprovar não baixa necessariamente as notas; reflete dificuldades que começaram antes.</span></li>
+      <li><span data-l="en">One year of exams is not enough to judge an individual school. School rankings should be read over several years.</span><span data-l="pt">Um ano de exames não chega para avaliar uma escola. Os rankings devem ser lidos ao longo de vários anos.</span></li>
+    </ul>
+  </aside>
+
+  <footer>
+    <span><span data-l="en">Sources:</span><span data-l="pt">Fontes:</span> Cortez &amp; Silva (2008), <a href="https://archive.ics.uci.edu/dataset/320" target="_blank" rel="noopener">UCI Student Performance</a> · <a href="https://www.dge.mec.pt/relatoriosestatisticas-0" target="_blank" rel="noopener">JNE/DGE, ENES 2024</a> · <a href="https://infoescolas.medu.pt/bds.asp" target="_blank" rel="noopener">DGEEC, Infoescolas</a> (2022/23).</span>
+    <span><span data-l="en">Background index: the completion rate DGEEC expects for each school's students, based on age, School Social Action support, mother's education and public/private sector.</span><span data-l="pt">Índice de contexto: a taxa de conclusão que a DGEEC espera para os alunos de cada escola, com base na idade, Ação Social Escolar, escolaridade da mãe e natureza pública/privada.</span></span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  const root = document.documentElement;
+  let lang = "en";
+  try { lang = localStorage.getItem("lang") === "pt" ? "pt" : "en"; } catch (e) {}
+
+  const T = {
+    en: { none: "Never repeated", one: "Repeated 1+ years", F: "Girls", M: "Boys", pt: "Portuguese", ma: "Maths", maA: "Maths A",
+          age17: "Age 17 or under", age18: "Age 18", age19: "Age 19", pub: "Public", pri: "Private", raw: "Private lead, raw",
+          adj: "Same student backgrounds", internal: "School grade", exam: "Exam score", pass: "pass mark",
+          exams: "Exam results", intake: "Student background (advantage)", completion: "Finishing on time, vs expected",
+          examva: "Exams, vs expected", low: "Bottom", high: "Top", sd: "of the raw gap" },
+    pt: { none: "Nunca reprovou", one: "Reprovou 1+ anos", F: "Raparigas", M: "Rapazes", pt: "Português", ma: "Matemática", maA: "Matemática A",
+          age17: "17 anos ou menos", age18: "18 anos", age19: "19 anos", pub: "Pública", pri: "Privada", raw: "Vantagem dos colégios, em bruto",
+          adj: "Alunos de contexto semelhante", internal: "Nota da escola", exam: "Nota do exame", pass: "positiva",
+          exams: "Resultados nos exames", intake: "Contexto dos alunos (vantagem)", completion: "Conclusão a tempo, vs esperado",
+          examva: "Exames, vs esperado", low: "Fundo", high: "Topo", sd: "da diferença em bruto" }
+  };
+  const fmt = (v, d = 1) => v.toLocaleString(lang === "pt" ? "pt-PT" : "en-GB", { minimumFractionDigits: d, maximumFractionDigits: d });
+
+  // Bars on the 0–20 grade scale, pass mark at 10
+  function bars(id, groups) {
+    const el = document.getElementById(id);
+    let html = "";
+    groups.forEach(g => {
+      html += '<div class="bar-group">' + (g.title ? '<div class="group-label">' + g.title + "</div>" : "");
+      g.rows.forEach(r => {
+        const pct = Math.max(0, Math.min(100, (r.v / (r.max || 20)) * 100));
+        const tip = r.label + ": " + fmt(r.v, r.d) + (r.unit || "");
+        html += '<div class="bar" title="' + tip + '"><span class="lab">' + r.label + '</span>' +
+          '<span class="track">' + '<span class="fill" style="width:' + pct + '%;background:' + r.color + '"></span>' +
+          (r.max ? "" : '<span class="pass" aria-hidden="true"></span>') + "</span>" +
+          '<span class="val">' + fmt(r.v, r.d) + (r.unit || "") + "</span></div>";
+      });
+      html += "</div>";
+    });
+    if (!groups.noScale) {
+      html += '<div class="scale" aria-hidden="true"><span></span><span class="ticks"><span>0</span><span>10 · ' + T[lang].pass + '</span><span>20</span></span><span></span></div>';
+    }
+    el.innerHTML = html;
+  }
+  const legend = (id, items) => {
+    document.getElementById(id).innerHTML = items.map(([c, t]) => '<span class="key"><i class="sw" style="background:' + c + '"></i>' + t + "</span>").join("");
+  };
+
+  function render() {
+    const t = T[lang], B = "var(--blue)", O = "var(--orange)", G = "var(--grey)";
+
+    bars("c-failures", [{ rows: [
+      { label: t.none, v: 12.51, color: B },
+      { label: t.one, v: 8.59, color: O },
+    ] }]);
+
+    legend("lg-sex", [[B, t.F], [O, t.M]]);
+    bars("c-sex-0506", [
+      { title: t.pt, rows: [{ label: t.F, v: 13.09, color: B }, { label: t.M, v: 11.90, color: O }] },
+      { title: t.ma, rows: [{ label: t.F, v: 9.84, color: B }, { label: t.M, v: 10.98, color: O }] },
+    ]);
+
+    legend("lg-subj", [[B, t.pt], [O, t.maA]]);
+    bars("c-age", [
+      { title: t.pt, rows: [{ label: t.age17, v: 12.02, color: B }, { label: t.age18, v: 10.76, color: B }, { label: t.age19, v: 9.88, color: B }] },
+      { title: t.maA, rows: [{ label: t.age17, v: 13.89, color: O }, { label: t.age18, v: 11.08, color: O }, { label: t.age19, v: 8.90, color: O }] },
+    ]);
+
+    const priv = [{ rows: [
+      { label: t.raw, v: 100, max: 100, d: 0, unit: "%", color: O },
+      { label: t.adj, v: 11, max: 100, d: 0, unit: "%", color: O },
+    ] }];
+    priv.noScale = true;
+    bars("c-private", priv);
+    document.getElementById("c-private").insertAdjacentHTML("beforeend",
+      '<div class="scale" aria-hidden="true"><span></span><span class="ticks"><span>0%</span><span>100% ' + t.sd + "</span></span><span></span></div>");
+
+    legend("lg-sex2", [[B, t.F], [O, t.M]]);
+    bars("c-sex-2024", [
+      { title: t.pt, rows: [{ label: t.F, v: 12.03, color: B }, { label: t.M, v: 11.24, color: O }] },
+      { title: t.maA, rows: [{ label: t.F, v: 14.14, color: B }, { label: t.M, v: 13.25, color: O }] },
+    ]);
+
+    legend("lg-int", [[G, t.internal], [B, t.exam]]);
+    bars("c-internal", [
+      { title: t.maA + " · " + t.pub, rows: [{ label: t.internal, v: 15.31, color: G }, { label: t.exam, v: 13.26, color: B }] },
+      { title: t.maA + " · " + t.pri, rows: [{ label: t.internal, v: 16.29, color: G }, { label: t.exam, v: 15.44, color: B }] },
+    ]);
+
+    // Percentile among 555 schools (0 = bottom, 100 = top)
+    const meters = [
+      [t.intake, 58, 49], [t.exams, 81, 29], [t.examva, 80, 24], [t.completion, 34, 75],
+    ];
+    document.getElementById("c-meters").innerHTML = meters.map(([lab, gp, ms]) =>
+      '<span class="lab">' + lab + "</span>" +
+      '<div><div class="meter" title="Gabriel Pereira ' + gp + " · Mouzinho da Silveira " + ms + '">' +
+      '<span class="pin gp" style="left:' + gp + '%"><span>' + gp + "</span></span>" +
+      '<span class="pin ms" style="left:' + ms + '%"><span>' + ms + "</span></span></div></div>"
+    ).join("") + '<span></span><div class="meter-axis"><span>' + t.low + "</span><span>50</span><span>" + t.high + "</span></div>";
+
+    // 100 students: 12 flagged & fail, 22 flagged & pass, 3 missed, 63 fine
+    const dots = [].concat(Array(12).fill("dot fail flag"), Array(22).fill("dot flag"), Array(3).fill("dot fail"), Array(63).fill("dot"));
+    document.getElementById("c-dots").innerHTML = dots.map(c => '<i class="' + c + '"></i>').join("");
+  }
+
+  function setLang(l) {
+    lang = l;
+    root.setAttribute("data-lang", l);
+    root.setAttribute("lang", l === "pt" ? "pt-PT" : "en");
+    document.querySelectorAll(".switch button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.set === l)));
+    try { localStorage.setItem("lang", l); } catch (e) {}
+    render();
+  }
+  document.querySelectorAll(".switch button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
+  setLang(lang);
+})();
+</script>
