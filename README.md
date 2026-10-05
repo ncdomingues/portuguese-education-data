@@ -9,7 +9,7 @@ Data science projects on student performance and school inequality in Portuguese
 | [Student performance](projeto_student_performance/README.md) | What predicts a student's final grade, and can we flag students at risk at the start of the year? | UCI Student Performance: 649 students, two schools, 2005/06 |
 | [School inequality](school-inequality-portugal/README.md) | How much of a school's exam result comes from its students' background? Do the 2005/06 findings still hold? | ENES 2024 (311,909 national exams) + Infoescolas school context |
 
-**Plain-language summary:** [results-at-a-glance.html](results-at-a-glance.html) is a one-page dashboard of the main findings for non-technical readers, in English and Portuguese.
+**Plain-language summary:** [open the live dashboard](https://ncdomingues.github.io/portuguese-education-data/results-at-a-glance.html) ([source](results-at-a-glance.html)). It is a one-page dashboard of the main findings for non-technical readers, in English and Portuguese.
 
 ## Highlights
 - Repeating a year is the clearest warning sign, in 2005/06 and in 2024.
