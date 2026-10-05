@@ -11,6 +11,8 @@ Data science projects on student performance and school inequality in Portuguese
 
 **Plain-language summary:** [open the live dashboard](https://ncdomingues.github.io/portuguese-education-data/results-at-a-glance.html) ([source](results-at-a-glance.html)). It is a one-page dashboard of the main findings for non-technical readers, in English and Portuguese.
 
+**More projects:** [Tox21 toxicity prediction](https://github.com/ncdomingues/tox21-toxicity) predicts whether a chemical is toxic from its molecular structure (RDKit, scikit-learn, Streamlit).
+
 ## Highlights
 - Repeating a year is the clearest warning sign, in 2005/06 and in 2024.
 - An early-warning model built only on start-of-year information catches 8 in 10 students who go on to fail.

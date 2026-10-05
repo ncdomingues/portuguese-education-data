@@ -11,6 +11,8 @@ Projetos de ciência de dados sobre o desempenho dos alunos e a desigualdade ent
 
 **Resumo em linguagem simples:** [abre o dashboard online](https://ncdomingues.github.io/portuguese-education-data/results-at-a-glance.html) ([código](results-at-a-glance.html)). É um dashboard de uma página com as principais conclusões, para quem não é técnico, em inglês e português.
 
+**Outros projetos:** [Previsão de toxicidade Tox21](https://github.com/ncdomingues/tox21-toxicity) prevê se um químico é tóxico a partir da sua estrutura molecular (RDKit, scikit-learn, Streamlit).
+
 ## Destaques
 - Ter reprovado é o sinal de alerta mais claro, em 2005/06 e em 2024.
 - Um modelo de alerta precoce, só com a informação do início do ano, apanha 8 em cada 10 alunos que vêm a reprovar.

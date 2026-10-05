@@ -8,3 +8,6 @@ __pycache__/
 .claude/
 .DS_Store
 Thumbs.db
+
+# Separate repository (github.com/ncdomingues/tox21-toxicity)
+tox21-toxicity/
