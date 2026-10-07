@@ -11,7 +11,9 @@ Projetos de ciência de dados sobre o desempenho dos alunos e a desigualdade ent
 
 **Resumo em linguagem simples:** [abre o dashboard online](https://ncdomingues.github.io/portuguese-education-data/results-at-a-glance.html) ([código](results-at-a-glance.html)). É um dashboard de uma página com as principais conclusões, para quem não é técnico, em inglês e português.
 
-**Outros projetos:** [Previsão de toxicidade Tox21](https://github.com/ncdomingues/tox21-toxicity) prevê se um químico é tóxico a partir da sua estrutura molecular (RDKit, scikit-learn, Streamlit).
+**Outros projetos:**
+- [Previsão de toxicidade Tox21](https://github.com/ncdomingues/tox21-toxicity) prevê se um químico é tóxico a partir da sua estrutura molecular (RDKit, scikit-learn, Streamlit).
+- [Porque param os ensaios clínicos](https://github.com/ncdomingues/clinical-trial-termination) analisa 46 911 ensaios do ClinicalTrials.gov: razões de interrupção, fatores de risco e um modelo de previsão.
 
 ## Destaques
 - Ter reprovado é o sinal de alerta mais claro, em 2005/06 e em 2024.
