@@ -14,6 +14,7 @@ Projetos de ciência de dados sobre o desempenho dos alunos e a desigualdade ent
 **Outros projetos:**
 - [Previsão de toxicidade Tox21](https://github.com/ncdomingues/tox21-toxicity) prevê se um químico é tóxico a partir da sua estrutura molecular (RDKit, scikit-learn, Streamlit).
 - [Porque param os ensaios clínicos](https://github.com/ncdomingues/clinical-trial-termination) analisa 46 911 ensaios do ClinicalTrials.gov: razões de interrupção, fatores de risco e um modelo de previsão.
+- [Alunos em risco em cursos online](https://github.com/ncdomingues/online-course-dropout) cria um modelo de alerta precoce, semana a semana, para alunos da Open University, com uma análise de equidade.
 
 ## Destaques
 - Ter reprovado é o sinal de alerta mais claro, em 2005/06 e em 2024.

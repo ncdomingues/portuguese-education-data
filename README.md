@@ -14,6 +14,7 @@ Data science projects on student performance and school inequality in Portuguese
 **More projects:**
 - [Tox21 toxicity prediction](https://github.com/ncdomingues/tox21-toxicity) predicts whether a chemical is toxic from its molecular structure (RDKit, scikit-learn, Streamlit).
 - [Why clinical trials stop early](https://github.com/ncdomingues/clinical-trial-termination) analyses 46,911 trials from ClinicalTrials.gov: stopping reasons, risk factors and a prediction model.
+- [Spotting students at risk in online courses](https://github.com/ncdomingues/online-course-dropout) builds a week-by-week early-warning model for Open University students, with a fairness check.
 
 ## Highlights
 - Repeating a year is the clearest warning sign, in 2005/06 and in 2024.
